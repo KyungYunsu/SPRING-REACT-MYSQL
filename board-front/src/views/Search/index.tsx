@@ -6,6 +6,6 @@ export default function Search() {
   
   //       render: 검색 화면 컴포넌트 렌더링       //
   return (
-    <div>index</div>
+    <div>검색</div>
   )
 }
