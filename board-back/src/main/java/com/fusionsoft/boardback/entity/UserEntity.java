@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fusionsoft.boardback.dto.request.auth.SignUpRequestDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,8 +23,20 @@ public class UserEntity {
     private String nickname;
     private String telNumber;
     private String address;
-    private String addressDetial;
+    private String addressDetail;
     private String profileImage;
+    private boolean agreedPersonal;
+    
+    public UserEntity(SignUpRequestDto dto){
+        this.email = dto.getEmail();
+        this.password = dto.getPassword();
+        this.nickname = dto.getNickname();
+        this.telNumber = dto.getTelNumber();
+        this.address = dto.getAddress();
+        this.addressDetail = dto.getAddressDetail();
+        this.agreedPersonal = dto.getAgreedPersonal();
+        
+    }
 
 
 }
