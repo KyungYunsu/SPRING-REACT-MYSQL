@@ -1,4 +1,4 @@
-import React, { ChangeEvent, KeyboardEvent, useRef, useState } from 'react'
+import React, { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
 import './style.css'
 import InputBox from 'components/InputBox';
 import SignInRequestDto from 'apis/request/auth/sign-in.request.dto';
@@ -410,9 +410,7 @@ export default function Authentication() {
     //        event handler: 패스워드 확인 키 다운 이벤트 처리 함수        //
     const onPasswordCheckKeyDownHandler = (event: KeyboardEvent<HTMLInputElement>) => {
       if(event.key !== 'Enter') return;
-      if(!nicknameRef.current) return
       onNextButtonClickHandler();
-      nicknameRef.current.focus();
     };
     //        event handler: 닉네임 키 다운 이벤트 처리 함수        //
     const onNicknameKeyDownHandler = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -446,6 +444,14 @@ export default function Authentication() {
       if(!addressDetailRef.current) return;
       addressDetailRef.current.focus();
     };
+
+    //        effect: page 상태가 변경될 때 마다 실행될 함수        //
+    useEffect(() => {
+      if(page === 2) {
+        if(!nicknameRef.current) return; 
+        nicknameRef.current.focus();
+      }
+    }, [page]);
     
     //       render: sign up card 컴포넌트 렌더링       //
     return (
