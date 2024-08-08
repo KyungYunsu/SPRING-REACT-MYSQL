@@ -30,18 +30,26 @@ export default function BoardWrite() {
       <div className='board-write-container'>
         <div className='board-write-box'>
           <div className='board-write-title-box'>
-            <input className='board-write-title-input'type='text' placeholder='제목을 작성해주세요.' value={title}/>
+            <input className='board-write-title-input'type='text' placeholder='제목을 작성해주세요.' value={title} />
           </div>
           <div className='divider'></div>
           <div className='board-write-content-box'>
-            <textarea ref={ contentRef } className='board-write-content-textarea' placeholder='본문을 작성해주세요.' value={content}/>
+            <textarea ref={ contentRef } className='board-write-content-textarea' placeholder='본문을 작성해주세요.'  />
             <div className='icon-button'>
               <div className='icon image-box-light-icon'></div>
             </div>
           </div>
           <div className='board-write-images-box'>
             <div className='board-write-image-box'>
-              <img className='board-write-image'/>
+              <img className='board-write-image' src='https://picsum.photos/id/237/200/300'/>
+              <div className='icon-button image-close'>
+                <div className='icon close-icon'></div>
+              </div>
+              <input ref={ imageInputRef } type='file' accept='image/*' style={{display: 'none'}}/>
+            </div>
+
+            <div className='board-write-image-box'>
+              <img className='board-write-image' src='https://picsum.photos/200/300?grayscale'/>
               <div className='icon-button image-close'>
                 <div className='icon close-icon'></div>
               </div>
