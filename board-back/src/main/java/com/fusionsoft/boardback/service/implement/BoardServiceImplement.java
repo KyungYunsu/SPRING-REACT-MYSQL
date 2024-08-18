@@ -8,12 +8,14 @@ import org.springframework.stereotype.Service;
 
 import com.fusionsoft.boardback.dto.request.board.PostBoardRequestDto;
 import com.fusionsoft.boardback.dto.response.ResponseDto;
+import com.fusionsoft.boardback.dto.response.board.GetBoardResponseDto;
 import com.fusionsoft.boardback.dto.response.board.PostBoardResponseDto;
 import com.fusionsoft.boardback.entity.BoardEntity;
 import com.fusionsoft.boardback.entity.ImageEntity;
 import com.fusionsoft.boardback.repository.BoardRepository;
 import com.fusionsoft.boardback.repository.ImageRepository;
 import com.fusionsoft.boardback.repository.UserRepository;
+import com.fusionsoft.boardback.repository.resultSet.GetBoardResultSet;
 import com.fusionsoft.boardback.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,30 @@ public class BoardServiceImplement implements BoardService {
     private final ImageRepository imageRepository;
     private final BoardRepository boardRepository;
 
+    @Override
+    public ResponseEntity<? super GetBoardResponseDto> getBoard(Integer boardNumber) {
+        
+        GetBoardResultSet resultSet = null;
+        List<ImageEntity> imageEntities = new ArrayList<>();
+
+        try {
+
+            resultSet = boardRepository.getBoard(boardNumber);
+            if(resultSet == null) return GetBoardResponseDto.notExistBoard();
+
+            imageEntities = imageRepository.findByBoardNumber(boardNumber);
+
+            BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
+            boardEntity.increaseViewCount();
+            boardRepository.save(boardEntity);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return GetBoardResponseDto.success(resultSet, imageEntities);
+    }
     @Override
     public ResponseEntity<? super PostBoardResponseDto> postBoard(PostBoardRequestDto dto, String email) {
         
@@ -52,5 +78,6 @@ public class BoardServiceImplement implements BoardService {
         }
         return PostBoardResponseDto.success();
     }
+
     
 }
