@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fusionsoft.boardback.dto.response.board.GetBoardResponseDto;
 import com.fusionsoft.boardback.dto.response.board.PostBoardResponseDto;
+import com.fusionsoft.boardback.dto.response.board.PutFavoriteResponseDto;
 import com.fusionsoft.boardback.dto.request.board.PostBoardRequestDto;
 import com.fusionsoft.boardback.service.BoardService;
 
@@ -18,8 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController
@@ -47,4 +47,12 @@ public class BoardController {
         return response;
     }
     
+    @PutMapping("/{boardNumber}/favorite")
+    public ResponseEntity<? super PutFavoriteResponseDto> putFavorite(
+        @PathVariable("boardNumber") Integer boardNumber,
+        @AuthenticationPrincipal String email
+    ){
+        ResponseEntity<? super PutFavoriteResponseDto> response = boardService.putFavorite(boardNumber, email);
+        return response;
+    }
 }
