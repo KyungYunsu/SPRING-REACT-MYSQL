@@ -2,7 +2,7 @@ import axios from "axios";
 import SignInRequestDto from "./request/auth/sign-in.request.dto";
 import SignUpRequestDto from "./request/auth/sign-up.request.dto";
 import { ResponseDto } from "./response";
-import { SignUpResponseDto } from "./response/auth";
+import { SignInResponseDto, SignUpResponseDto } from "./response/auth";
 import { GetSignInUserResponseDto } from "./response/user";
 import { PostBoardRequestDto } from "./request/board";
 import { PostBoardResponseDto } from "./response/board";
@@ -18,11 +18,11 @@ const SIGN_UP_URL = () => `${API_DOMAIN}/auth/sign-up`;
 
 export const signInRequest = async (requestBody: SignInRequestDto) => {
     const result = await axios.post(SIGN_IN_URL(), requestBody)
-        .then((response) => {
-            const responseBody = response.data;
+        .then(response => {
+            const responseBody: SignInResponseDto = response.data;
             return responseBody;
         })
-        .catch((error) => {
+        .catch(error => {
             if(!error.response.data) return null;
             const responseBody: ResponseDto = error.response.data;
             return responseBody;

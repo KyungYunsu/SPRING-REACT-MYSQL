@@ -18,7 +18,7 @@ export default function Authentication() {
   const [view, setView] = useState<'sign-in' | 'sign-up' >('sign-in');
 
   //        state: 쿠키 상태        //
-  const [cookies, setCookies] = useCookies();
+  const [cookies, setCookie] = useCookies();
 
   //        function: 네비게이트 함수        //
   const navigator = useNavigate();
@@ -56,7 +56,7 @@ export default function Authentication() {
       const now = new Date().getTime();
       const expires = new Date(now + expirationTime * 1000);
 
-      setCookies('accessToken', token, { expires, path:MAIN_PATH() });
+      setCookie('accessToken', token, { expires, path:MAIN_PATH() });
       navigator(MAIN_PATH());
       
     }
