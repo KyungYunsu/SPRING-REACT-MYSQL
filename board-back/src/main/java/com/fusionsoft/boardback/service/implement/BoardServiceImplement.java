@@ -10,6 +10,7 @@ import com.fusionsoft.boardback.dto.request.board.PostBoardRequestDto;
 import com.fusionsoft.boardback.dto.request.board.PostCommentRequestDto;
 import com.fusionsoft.boardback.dto.response.ResponseDto;
 import com.fusionsoft.boardback.dto.response.board.GetBoardResponseDto;
+import com.fusionsoft.boardback.dto.response.board.GetCommentListResponseDto;
 import com.fusionsoft.boardback.dto.response.board.GetFavoriteListResponseDto;
 import com.fusionsoft.boardback.dto.response.board.PostBoardResponseDto;
 import com.fusionsoft.boardback.dto.response.board.PostCommentResponseDto;
@@ -24,6 +25,7 @@ import com.fusionsoft.boardback.repository.FavoriteRepository;
 import com.fusionsoft.boardback.repository.ImageRepository;
 import com.fusionsoft.boardback.repository.UserRepository;
 import com.fusionsoft.boardback.repository.resultSet.GetBoardResultSet;
+import com.fusionsoft.boardback.repository.resultSet.GetCommentListResultSet;
 import com.fusionsoft.boardback.repository.resultSet.GetFavoriteListResultSet;
 import com.fusionsoft.boardback.service.BoardService;
 
@@ -82,6 +84,29 @@ public class BoardServiceImplement implements BoardService {
         }
 
         return GetFavoriteListResponseDto.success(resultSets);
+    }
+
+    @Override
+    public ResponseEntity<? super GetCommentListResponseDto> getCommentList(Integer boardNumber) {
+        
+        List<GetCommentListResultSet> resultSets = new ArrayList<>();
+
+        try {
+
+            boolean existedBoard = boardRepository.existsByBoardNumber(boardNumber);
+            if (!existedBoard) return GetCommentListResponseDto.noExistBoard();
+
+            resultSets = commentRepository.getCommentList(boardNumber);
+            
+
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return GetCommentListResponseDto.success(resultSets);
+    
     }
 
     @Override
@@ -165,6 +190,8 @@ public class BoardServiceImplement implements BoardService {
 
         return PutFavoriteResponseDto.success();
     }
+
+
 
 
     
