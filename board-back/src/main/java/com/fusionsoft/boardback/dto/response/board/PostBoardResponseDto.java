@@ -18,7 +18,7 @@ public class PostBoardResponseDto extends ResponseDto{
 
     public static ResponseEntity<PostBoardResponseDto> success() {
         PostBoardResponseDto result = new PostBoardResponseDto();
-        return ResponseEntity.ok(result);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
     
     public static ResponseEntity<ResponseDto> notExistUser() {

@@ -7,6 +7,7 @@ import com.fusionsoft.boardback.dto.request.board.PostCommentRequestDto;
 import com.fusionsoft.boardback.dto.response.board.GetBoardResponseDto;
 import com.fusionsoft.boardback.dto.response.board.GetCommentListResponseDto;
 import com.fusionsoft.boardback.dto.response.board.GetFavoriteListResponseDto;
+import com.fusionsoft.boardback.dto.response.board.IncreaseViewCountResponseDto;
 import com.fusionsoft.boardback.dto.response.board.PostBoardResponseDto;
 import com.fusionsoft.boardback.dto.response.board.PostCommentResponseDto;
 import com.fusionsoft.boardback.dto.response.board.PutFavoriteResponseDto;
@@ -20,4 +21,6 @@ public interface BoardService {
     ResponseEntity<? super PostCommentResponseDto> postComment(PostCommentRequestDto dto, Integer BoardNumber, String email);
 
     ResponseEntity<? super PutFavoriteResponseDto> putFavorite(Integer boardNumber, String email);
+
+    ResponseEntity<? super IncreaseViewCountResponseDto> increaseViewCount(Integer boardNumber);
 }
