@@ -19,7 +19,7 @@ export default function FavoriteItem( {favoriteListItem} : Props) {
         <div className='favorite-list-item-profile-box'>
             <div className='favorite-list-item-profile-image' style={{backgroundImage: `url( ${profileImage ? profileImage : defaultProfileImage})`}}></div>
         </div>
-        <div className='favorite-list-item-nickname'>{'안녕하세요나는주코야키'}</div>
+        <div className='favorite-list-item-nickname'>{nickname}</div>
     </div>
   )
 }
