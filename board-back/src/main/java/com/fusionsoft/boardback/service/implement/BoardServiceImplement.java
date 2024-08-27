@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.fusionsoft.boardback.dto.request.board.PostBoardRequestDto;
 import com.fusionsoft.boardback.dto.request.board.PostCommentRequestDto;
 import com.fusionsoft.boardback.dto.response.ResponseDto;
+import com.fusionsoft.boardback.dto.response.board.DeleteBoardResponseDto;
 import com.fusionsoft.boardback.dto.response.board.GetBoardResponseDto;
 import com.fusionsoft.boardback.dto.response.board.GetCommentListResponseDto;
 import com.fusionsoft.boardback.dto.response.board.GetFavoriteListResponseDto;
@@ -29,6 +30,7 @@ import com.fusionsoft.boardback.repository.resultSet.GetBoardResultSet;
 import com.fusionsoft.boardback.repository.resultSet.GetCommentListResultSet;
 import com.fusionsoft.boardback.repository.resultSet.GetFavoriteListResultSet;
 import com.fusionsoft.boardback.service.BoardService;
+import com.mysql.cj.x.protobuf.MysqlxCrud.Delete;
 
 import lombok.RequiredArgsConstructor;
 
@@ -204,6 +206,34 @@ public class BoardServiceImplement implements BoardService {
         }
 
         return IncreaseViewCountResponseDto.success();
+    }
+
+    @Override
+    public ResponseEntity<? super DeleteBoardResponseDto> deleteBoard(Integer boardNumber, String email) {
+        
+        try {
+
+            boolean existedUser = userRepository.existsByEmail(email);
+            if (!existedUser) return DeleteBoardResponseDto.noExistUer();
+
+            BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
+            if (boardEntity == null) return DeleteBoardResponseDto.noExistBoard();
+
+            String writerEmail = boardEntity.getWriterEmail();
+            boolean isWriter = writerEmail.equals(email);
+            if (!isWriter) return DeleteBoardResponseDto.noPermission();
+
+            imageRepository.deleteByBoardNumber(boardNumber);
+            commentRepository.deleteByBoardNumber(boardNumber);
+            favoriteRepository.deleteByBoardNumber(boardNumber);
+
+            boardRepository.delete(boardEntity);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return DeleteBoardResponseDto.success();
     }
 
 
