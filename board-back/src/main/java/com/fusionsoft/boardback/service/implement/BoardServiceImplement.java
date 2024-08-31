@@ -30,7 +30,6 @@ import com.fusionsoft.boardback.repository.resultSet.GetBoardResultSet;
 import com.fusionsoft.boardback.repository.resultSet.GetCommentListResultSet;
 import com.fusionsoft.boardback.repository.resultSet.GetFavoriteListResultSet;
 import com.fusionsoft.boardback.service.BoardService;
-import com.mysql.cj.x.protobuf.MysqlxCrud.Delete;
 
 import lombok.RequiredArgsConstructor;
 
