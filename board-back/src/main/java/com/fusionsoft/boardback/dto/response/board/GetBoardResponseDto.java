@@ -1,7 +1,7 @@
 package com.fusionsoft.boardback.dto.response.board;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,7 +51,7 @@ public class GetBoardResponseDto extends ResponseDto{
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    public static ResponseEntity<ResponseDto> notExistBoard() {
+    public static ResponseEntity<ResponseDto> noExistBoard() {
         ResponseDto result = new ResponseDto(ResponseCode.NOT_EXISTED_BOARD, ResponseMessage.NOT_EXISTED_BOARD);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
     }

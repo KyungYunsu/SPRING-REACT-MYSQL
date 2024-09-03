@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.fusionsoft.boardback.dto.request.board.PatchBoardRequestDto;
 import com.fusionsoft.boardback.dto.request.board.PostBoardRequestDto;
 import com.fusionsoft.boardback.dto.request.board.PostCommentRequestDto;
 import com.fusionsoft.boardback.dto.response.ResponseDto;
@@ -14,6 +15,7 @@ import com.fusionsoft.boardback.dto.response.board.GetBoardResponseDto;
 import com.fusionsoft.boardback.dto.response.board.GetCommentListResponseDto;
 import com.fusionsoft.boardback.dto.response.board.GetFavoriteListResponseDto;
 import com.fusionsoft.boardback.dto.response.board.IncreaseViewCountResponseDto;
+import com.fusionsoft.boardback.dto.response.board.PatchBoardResponseDto;
 import com.fusionsoft.boardback.dto.response.board.PostBoardResponseDto;
 import com.fusionsoft.boardback.dto.response.board.PostCommentResponseDto;
 import com.fusionsoft.boardback.dto.response.board.PutFavoriteResponseDto;
@@ -52,7 +54,7 @@ public class BoardServiceImplement implements BoardService {
         try {
 
             resultSet = boardRepository.getBoard(boardNumber);
-            if(resultSet == null) return GetBoardResponseDto.notExistBoard();
+            if(resultSet == null) return GetBoardResponseDto.noExistBoard();
 
             imageEntities = imageRepository.findByBoardNumber(boardNumber);
 
@@ -112,7 +114,7 @@ public class BoardServiceImplement implements BoardService {
         
         try {
             boolean existedEmail = userRepository.existsByEmail(email);
-            if(!existedEmail) return PostBoardResponseDto.notExistUser();
+            if(!existedEmail) return PostBoardResponseDto.noExistUser();
 
             BoardEntity boardEntity = new BoardEntity(dto, email);
             boardRepository.save(boardEntity);
@@ -189,13 +191,50 @@ public class BoardServiceImplement implements BoardService {
         return PutFavoriteResponseDto.success();
     }
 
+
+    @Override
+    public ResponseEntity<? super PatchBoardResponseDto> patchBoard(PatchBoardRequestDto dto, Integer boardNumber,String email) {
+    
+        try {
+            
+            BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
+            if (boardEntity == null) return PatchBoardResponseDto.noExistBoard();
+
+            boolean existedUser = userRepository.existsByEmail(email);
+            if (!existedUser) return PatchBoardResponseDto.noExistUer();
+
+            String writerEmail = boardEntity.getWriterEmail();
+            boolean isWriter = writerEmail.equals(email);
+            if (!isWriter) return PatchBoardResponseDto.noPermission();
+
+            boardEntity.patchBoard(dto);
+            boardRepository.save(boardEntity);      
+            
+            imageRepository.deleteByBoardNumber(boardNumber);
+            List<String> boardImageList = dto.getBoardImageList();
+            List<ImageEntity> imageEntities = new ArrayList<>();
+
+            for(String image: boardImageList) {
+                ImageEntity imageEntity = new ImageEntity(boardNumber, image);
+                imageEntities.add(imageEntity);
+            }
+
+            imageRepository.saveAll(imageEntities);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return PatchBoardResponseDto.success();
+    }
+
     @Override
     public ResponseEntity<? super IncreaseViewCountResponseDto> increaseViewCount(Integer boardNumber) {
         
         try {
 
             BoardEntity boardEntity = boardRepository.findByBoardNumber(boardNumber);
-            if (boardEntity == null) return IncreaseViewCountResponseDto.notExistBoard();
+            if (boardEntity == null) return IncreaseViewCountResponseDto.noExistBoard();
 
             boardEntity.increaseViewCount();
             boardRepository.save(boardEntity);
@@ -234,9 +273,4 @@ public class BoardServiceImplement implements BoardService {
         }
         return DeleteBoardResponseDto.success();
     }
-
-
-
-
-    
 }

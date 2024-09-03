@@ -10,14 +10,14 @@ import com.fusionsoft.boardback.dto.response.ResponseDto;
 import lombok.Getter;
 
 @Getter
-public class DeleteBoardResponseDto extends ResponseDto{
-    
-    private DeleteBoardResponseDto() {
+public class PatchBoardResponseDto extends ResponseDto {
+
+    private PatchBoardResponseDto() {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
     }
 
-    public static ResponseEntity<DeleteBoardResponseDto> success(){
-        DeleteBoardResponseDto result = new DeleteBoardResponseDto();
+    public static ResponseEntity<PatchBoardResponseDto> success() {
+        PatchBoardResponseDto result = new PatchBoardResponseDto();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
@@ -35,4 +35,5 @@ public class DeleteBoardResponseDto extends ResponseDto{
         ResponseDto result = new ResponseDto(ResponseCode.NO_PERMISSION, ResponseMessage.NO_PERMISSION);
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(result);
     }
+    
 }
