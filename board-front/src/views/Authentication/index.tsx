@@ -1,15 +1,15 @@
-import React, { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
-import './style.css'
-import InputBox from 'components/InputBox';
-import SignInRequestDto from 'apis/request/auth/sign-in.request.dto';
 import { signInRequest, signUpRequest } from 'apis';
-import { SignInResponseDto, SignUpResponseDto } from 'apis/response/auth';
-import { ResponseDto } from 'apis/response';
-import { useCookies } from 'react-cookie';
-import { MAIN_PATH } from 'constant';
-import { useNavigate } from 'react-router-dom';
-import { Address, useDaumPostcodePopup } from 'react-daum-postcode';
+import SignInRequestDto from 'apis/request/auth/sign-in.request.dto';
 import SignUpRequestDto from 'apis/request/auth/sign-up.request.dto';
+import { ResponseDto } from 'apis/response';
+import { SignInResponseDto, SignUpResponseDto } from 'apis/response/auth';
+import InputBox from 'components/InputBox';
+import { MAIN_PATH } from 'constant';
+import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { useCookies } from 'react-cookie';
+import { Address, useDaumPostcodePopup } from 'react-daum-postcode';
+import { useNavigate } from 'react-router-dom';
+import './style.css';
 
 //       component: 인증 화면 컴포넌트       //
 export default function Authentication() {
@@ -21,7 +21,7 @@ export default function Authentication() {
   const [cookies, setCookie] = useCookies();
 
   //        function: 네비게이트 함수        //
-  const navigator = useNavigate();
+  const navigate = useNavigate();
 
   //        component: sign in card 컴포넌트        //
   const SignInCard = () => {
@@ -57,7 +57,7 @@ export default function Authentication() {
       const expires = new Date(now + expirationTime * 1000);
 
       setCookie('accessToken', token, { expires, path:MAIN_PATH() });
-      navigator(MAIN_PATH());
+      navigate(MAIN_PATH());
       
     }
 
