@@ -20,7 +20,7 @@ public class BoardListItem {
     private int favoriteCount;
     private int commentCount;
     private int viewCount;
-    private String writeDateTime;
+    private String writeDatetime;
     private String writerNickname;
     private String writerProfileImage;
 
@@ -32,7 +32,7 @@ public class BoardListItem {
         this.favoriteCount = boardListViewEntity.getFavoriteCount();
         this.commentCount = boardListViewEntity.getCommentCount();
         this.viewCount = boardListViewEntity.getViewCount();
-        this.writeDateTime = boardListViewEntity.getWriteDatetime();
+        this.writeDatetime = boardListViewEntity.getWriteDatetime();
         this.writerNickname = boardListViewEntity.getWriterNickname();
         this.writerProfileImage = boardListViewEntity.getWriterProfileImage();
     }
