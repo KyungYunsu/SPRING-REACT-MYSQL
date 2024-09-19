@@ -1,5 +1,5 @@
+import defaultProfileImage from 'assets/image/default-profile-image.png';
 import { BoardListItem } from 'types/interface';
-import defaultProfileImage from '../assets/image/default-profile-image.png';
 import './style.css';
 
 interface Props {
