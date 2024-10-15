@@ -24,6 +24,7 @@ import com.fusionsoft.boardback.dto.response.board.GetFavoriteListResponseDto;
 import com.fusionsoft.boardback.dto.response.board.GetLatestBoardListResponseDto;
 import com.fusionsoft.boardback.dto.response.board.GetSearchBoardListResponseDto;
 import com.fusionsoft.boardback.dto.response.board.GetTop3BoardListResponseDto;
+import com.fusionsoft.boardback.dto.response.board.GetUserBoardListResponseDto;
 import com.fusionsoft.boardback.dto.response.board.IncreaseViewCountResponseDto;
 import com.fusionsoft.boardback.dto.response.board.PatchBoardResponseDto;
 import com.fusionsoft.boardback.dto.response.board.PostBoardResponseDto;
@@ -32,6 +33,7 @@ import com.fusionsoft.boardback.dto.response.board.PutFavoriteResponseDto;
 import com.fusionsoft.boardback.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
+
 
 
 
@@ -95,6 +97,15 @@ public class BoardController {
         ResponseEntity<? super GetSearchBoardListResponseDto> response = boardService.getSearchBoardList(searchWord, preSearchWord);
         return response;
     }
+
+    @GetMapping("/user-board-list/{email}")
+    public ResponseEntity<? super GetUserBoardListResponseDto> getUserBoardList(
+        @PathVariable("email") String email
+    ){
+        ResponseEntity<? super GetUserBoardListResponseDto> response = boardService.getUserBaordList(email);
+        return response;
+    }
+    
     
     @PostMapping("")
     public ResponseEntity<? super PostBoardResponseDto> postBoard(

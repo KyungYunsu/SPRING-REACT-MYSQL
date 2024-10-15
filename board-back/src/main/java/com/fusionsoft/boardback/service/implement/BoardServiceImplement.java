@@ -21,6 +21,7 @@ import com.fusionsoft.boardback.dto.response.board.GetFavoriteListResponseDto;
 import com.fusionsoft.boardback.dto.response.board.GetLatestBoardListResponseDto;
 import com.fusionsoft.boardback.dto.response.board.GetSearchBoardListResponseDto;
 import com.fusionsoft.boardback.dto.response.board.GetTop3BoardListResponseDto;
+import com.fusionsoft.boardback.dto.response.board.GetUserBoardListResponseDto;
 import com.fusionsoft.boardback.dto.response.board.IncreaseViewCountResponseDto;
 import com.fusionsoft.boardback.dto.response.board.PatchBoardResponseDto;
 import com.fusionsoft.boardback.dto.response.board.PostBoardResponseDto;
@@ -185,6 +186,23 @@ public class BoardServiceImplement implements BoardService {
     }
 
     @Override
+    public ResponseEntity<? super GetUserBoardListResponseDto> getUserBaordList(String email) {
+            List<BoardListViewEntity> boardListViewEntities = new ArrayList<>();
+        try {
+            boolean existedUser = userRepository.existsByEmail(email);
+            if (!existedUser) return GetUserBoardListResponseDto.noExistUser();
+
+            boardListViewEntities = boardListViewRepository.findByWriterEmailOrderByWriteDatetimeDesc(email);
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return GetUserBoardListResponseDto.success(boardListViewEntities);
+    }
+
+
+    @Override
     public ResponseEntity<? super PostBoardResponseDto> postBoard(PostBoardRequestDto dto, String email) {
         
         try {
@@ -347,6 +365,7 @@ public class BoardServiceImplement implements BoardService {
         }
         return DeleteBoardResponseDto.success();
     }
+
 
 
 
