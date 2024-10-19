@@ -1,5 +1,5 @@
 import defaultProfileImage from 'assets/image/default-profile-image.png';
-import { useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './style.css';
 
@@ -25,14 +25,37 @@ export default function User() {
     //        state: 프로필 이미지 상태        //
     const [profileImage, setProfileImage]= useState<string | null>(null);
 
+    //        event handler: 프로필 박스 클릭 이벤트 처리        //
+    const onProfileBoxClickHandler = () => {
+      if(!imageInputRef.current) return;
+      imageInputRef.current.click();
+    }
+    //        event handler: 닉네임 수정 버튼 클릭 이벤트 처리        //
+    const onNicknameEditButtonClickHandler= () => {
+      setChangeNickname(nickname);
+      setNicknameChange(!isNicknameChange);
+    }
+    //        event handler: 프로필 이미지 변경 이벤트 처리        //
+    const onProfileImageChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+      if(!event.target.files || !event.target.files.length) return;
+
+      const file = event.target.files[0];
+      const data = new FormData();
+      data.append('file', file);
+    }
+    //        event handler: 닉네임 변경 이벤트 처리        //
+    const onNicknameChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value;
+      setChangeNickname(value);
+    }
 
 
     //        effect: email path variable 변경 시 실행 함수         //
     useEffect(() => {
-
+      if(!isMyPage) return;
       if(!userEmail) return;
       setNickname('나는주코야키');
-      setProfileImage('https://search.pstatic.net/common?type=b&size=3000&quality=100&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fpeople%2Fportrait%2F202304%2F20230428214640258.jpg');
+      // setProfileImage('https://search.pstatic.net/common?type=b&size=3000&quality=100&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fpeople%2Fportrait%2F202304%2F20230428214640258.jpg');
 
     }, [userEmail]);
     
@@ -41,7 +64,7 @@ export default function User() {
       <div id='user-top-wrapper'>
         <div className='user-top-container'>
           {isMyPage ?
-          <div className='user-top-my-profile-image-box'>
+          <div className='user-top-my-profile-image-box' onClick={onProfileBoxClickHandler}>
             {profileImage !== null ?
             <div className='user-top-profile-image' style={{ backgroundImage: `url(${profileImage})` }}></div> :
             <div className='user-top-my-profile-image-nothing-box'>
@@ -50,7 +73,7 @@ export default function User() {
               </div>
             </div>
             }
-            <input ref={imageInputRef} type='file' accept='image/*' style={{ display: 'none' }} />
+            <input ref={imageInputRef} type='file' accept='image/*' style={{ display: 'none' }} onChange={onProfileImageChangeHandler} />
           </div> :
           <div className='user-top-profile-image-box' style={{ backgroundImage: `url(${profileImage ? profileImage : defaultProfileImage})` }}></div>
           }
@@ -59,10 +82,10 @@ export default function User() {
               {isMyPage ? 
               <>
               {isNicknameChange ? 
-              <input className='user-top-info-nickname-input' type='text' size={nickname.length + 1} value={changeNickname} /> :
+              <input className='user-top-info-nickname-input' type='text' size={nickname.length + 2} value={changeNickname} onChange={onNicknameChangeHandler} /> :
               <div className='user-top-info-nickname'>{nickname}</div>
               }
-              <div className='icon-button'>
+              <div className='icon-button' onClick={onNicknameEditButtonClickHandler}>
                 <div className='icon edit-icon'></div>
               </div>
               </> :
