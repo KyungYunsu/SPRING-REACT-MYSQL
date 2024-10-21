@@ -1,6 +1,6 @@
 import { FavoriteListItem } from 'types/interface';
-import responseDto from '../response.dto';
+import ResponseDto from '../response.dto';
 
-export default interface GetFavoriteListResponseDto extends responseDto{
+export default interface GetFavoriteListResponseDto extends ResponseDto{
     favoriteList: FavoriteListItem[];
 }

@@ -1,5 +1,5 @@
-import responseDto from '../response.dto';
+import ResponseDto from '../response.dto';
 
-export default interface PostCommentResponseDto extends responseDto {
+export default interface PostCommentResponseDto extends ResponseDto {
     
 }

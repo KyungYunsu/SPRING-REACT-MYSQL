@@ -1,5 +1,5 @@
-import responseDto from '../response.dto';
+import ResponseDto from '../response.dto';
 
-export default interface PutFavoriteResponseDto extends responseDto {
+export default interface PutFavoriteResponseDto extends ResponseDto {
 
 }
