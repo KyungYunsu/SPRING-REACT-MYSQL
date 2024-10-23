@@ -1,7 +1,5 @@
 package com.fusionsoft.boardback.controller;
 
-import javax.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +17,7 @@ import com.fusionsoft.boardback.dto.response.user.PatchNicknameResponseDto;
 import com.fusionsoft.boardback.dto.response.user.PatchProfileImageResponseDto;
 import com.fusionsoft.boardback.service.UserService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 
